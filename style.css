@@ -1,0 +1,36 @@
+
+
+h1 {
+    font-size: 32px;
+    font-weight: 600;
+}
+
+.grid-body {
+    width: 90%;
+    margin: auto;
+    display: grid;
+}
+
+#image-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+#results-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+section>img {
+    height: 200px;
+    margin: auto;
+}
+
+tr>img {
+    height: 200px;
+    margin: auto;
+}
+
+tr {
+    height: 20vw;
+}
