@@ -70,7 +70,32 @@ function handleVoteClick(event){
 }
 
 function handleShowResults(){
-    
+    if(voteAmount === 0){
+        for(let i = 0; i < itemArray.length; i++){
+            let heroImageRow = document.createElement('tr');
+            heroImageRow.innerHTML = `<img src="${itemArray[i].image}">`;
+            resultsList.appendChild(heroImageRow);
+
+            // let heroImage = document.createElement('td');
+            // heroImageRow.appendChild(heroImage);
+
+            let votesRow = document.createElement('tr');
+            heroImageRow.appendChild(votesRow);
+
+            let votesHeader = document.createElement('td');
+            votesHeader.innerText = `Votes: ${itemArray[i].votes}`
+            votesRow.appendChild(votesHeader);
+
+            let viewsHeader = document.createElement('td');
+            viewsHeader.innerText = `Views: ${itemArray[i].views}`
+            votesRow.appendChild(viewsHeader);
+
+            let voteViewsHeader = document.createElement('td');
+            voteViewsHeader.innerText = `Votes/Views Percent: ${itemArray[i].views}`;
+            votesRow.appendChild(voteViewsHeader);
+
+        }
+    }
 }
 
 // **** EXECUTABLE CODE ****
@@ -96,6 +121,6 @@ let waterCan = new Item('water-can');
 let wineGlass = new Item('wine-glass');
 
 renderPoll();
-console.dir(itemArray);
 
 imageContainer.addEventListener('click', handleVoteClick);
+resultsBtn.addEventListener('click', handleShowResults);
