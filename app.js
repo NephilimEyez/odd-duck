@@ -76,9 +76,6 @@ function handleShowResults(){
             heroImageRow.innerHTML = `<img src="${itemArray[i].image}">`;
             resultsList.appendChild(heroImageRow);
 
-            // let heroImage = document.createElement('td');
-            // heroImageRow.appendChild(heroImage);
-
             let votesRow = document.createElement('tr');
             heroImageRow.appendChild(votesRow);
 
@@ -91,9 +88,9 @@ function handleShowResults(){
             votesRow.appendChild(viewsHeader);
 
             let voteViewsHeader = document.createElement('td');
-            voteViewsHeader.innerText = `Votes/Views Percent: ${itemArray[i].views}`;
+            let percentage = Math.floor((itemArray[i].votes/itemArray[i].views)*100);
+            voteViewsHeader.innerText = `Votes/Views Percent: ${percentage};`
             votesRow.appendChild(voteViewsHeader);
-
         }
     }
 }
