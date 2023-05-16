@@ -4,6 +4,11 @@
 let voteAmount = 25;
 let itemArray = [];
 
+const results = {
+    allItemsArray: [],
+    indexArray: [],
+}
+
 // **** DOCUMENT WINDOWS ****
 let imageContainer = document.getElementById('image-container');
 let imgOne = document.getElementById('img-one');
@@ -28,15 +33,17 @@ function Item(name, imageExtension = 'jpg'){
 function rndmItemGen(){
   return Math.floor(Math.random() * itemArray.length);
 }
-function renderPoll(){
-    let imgOneNdx = rndmItemGen();
-    let imgTwoNdx = rndmItemGen();
-    let imgThreeNdx = rndmItemGen();
 
-    while(imgOneNdx === imgTwoNdx || imgOneNdx === imgTwoNdx || imgOneNdx === imgThreeNdx || imgTwoNdx === imgThreeNdx){
-    imgTwoNdx = rndmItemGen();
-    imgThreeNdx = rndmItemGen();
-  }
+function renderPoll(){
+    while (results.indexArray.length < 6) {
+        let randomNumber = rndmItemGen();
+        if (!results.indexArray.includes(randomNumber)) {
+            results.indexArray.push(randomNumber);
+        }
+    }
+    let imgOneNdx = results.indexArray.shift();
+    let imgTwoNdx = results.indexArray.shift();
+    let imgThreeNdx = results.indexArray.shift();
     
     imgOne.src = itemArray[imgOneNdx].image;
     imgOne.title = itemArray[imgOneNdx].name;
@@ -93,6 +100,10 @@ function handleShowResults(){
             votesRow.appendChild(voteViewsHeader);
         }
     }
+}
+
+function renderChart() {
+    
 }
 
 // **** EXECUTABLE CODE ****
