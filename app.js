@@ -3,11 +3,7 @@
 // **** GLOBALS ****
 let voteAmount = 25;
 let itemArray = [];
-
-const results = {
-    allItemsArray: [],
-    indexArray: [],
-}
+let indexArray = [];
 
 // **** DOCUMENT WINDOWS ****
 let imageContainer = document.getElementById('image-container');
@@ -35,15 +31,15 @@ function rndmItemGen(){
 }
 
 function renderPoll(){
-    while (results.indexArray.length < 6) {
+    while (indexArray.length < 6) {
         let randomNumber = rndmItemGen();
-        if (!results.indexArray.includes(randomNumber)) {
-            results.indexArray.push(randomNumber);
+        if (!indexArray.includes(randomNumber)) {
+            indexArray.push(randomNumber);
         }
     }
-    let imgOneNdx = results.indexArray.shift();
-    let imgTwoNdx = results.indexArray.shift();
-    let imgThreeNdx = results.indexArray.shift();
+    let imgOneNdx = indexArray.shift();
+    let imgTwoNdx = indexArray.shift();
+    let imgThreeNdx = indexArray.shift();
     
     imgOne.src = itemArray[imgOneNdx].image;
     imgOne.title = itemArray[imgOneNdx].name;
@@ -53,17 +49,60 @@ function renderPoll(){
 
     imgThree.src = itemArray[imgThreeNdx].image;
     imgThree.title = itemArray[imgThreeNdx].name;
-
+    
     itemArray[imgOneNdx].views++;
     itemArray[imgTwoNdx].views++;
     itemArray[imgThreeNdx].views++;
+}
+
+function renderGraph() {
+    let itemNames = [];
+    let itemVotes = [];
+    let itemViews = [];
+    
+    for (let i = 0; i < itemArray.length; i++) {
+        itemNames.push(itemArray[i].name);
+        itemVotes.push(itemArray[i].votes);
+        itemViews.push(itemArray[i].views);
+    }
+    const data = {
+        labels: itemNames,
+        datasets: [{
+            label: 'Votes',
+            data: itemVotes,
+            backgroundColor: 'rgba(255, 0, 0, 0.4)',
+            borderColor: 'rgba(255, 0, 0, 0.8)',
+            borderWidth: 1
+        },
+        {
+            label: 'Views',
+            data: itemViews,
+            backgroundColor: 'rgba(0, 0, 255, 0.4)',
+            borderColor: 'rgba(0, 0, 255, 0.8)',
+            borderWidth: 1
+        }]
+    };
+    
+    const config = {
+        type: 'bar',
+        data: data,
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        },
+    };
+    const ctx = document.getElementById('graph-container');
+    const myGraph = new Chart(ctx, config);
 }
 
 // **** EVENT HANDLERS ****
 
 function handleVoteClick(event){
     let imageClicked = event.target.title;
-
+    
     for (let i = 0; i < itemArray.length; i++){
         if(imageClicked === itemArray[i].name){
             itemArray[i].votes++;
@@ -78,6 +117,7 @@ function handleVoteClick(event){
 
 function handleShowResults(){
     if(voteAmount === 0){
+        renderGraph();
         for(let i = 0; i < itemArray.length; i++){
             let heroImageRow = document.createElement('tr');
             heroImageRow.innerHTML = `<img src="${itemArray[i].image}">`;
@@ -85,15 +125,15 @@ function handleShowResults(){
 
             let votesRow = document.createElement('tr');
             heroImageRow.appendChild(votesRow);
-
+            
             let votesHeader = document.createElement('td');
             votesHeader.innerText = `Votes: ${itemArray[i].votes}`
             votesRow.appendChild(votesHeader);
-
+            
             let viewsHeader = document.createElement('td');
             viewsHeader.innerText = `Views: ${itemArray[i].views}`
             votesRow.appendChild(viewsHeader);
-
+            
             let voteViewsHeader = document.createElement('td');
             let percentage = Math.floor((itemArray[i].votes/itemArray[i].views)*100);
             voteViewsHeader.innerText = `Votes/Views Percent: ${percentage};`
