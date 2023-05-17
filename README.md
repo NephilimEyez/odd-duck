@@ -1,3 +1,3 @@
 # odd-duck
 
-![img/lighthouse.png](Lighthouse Accessibility (navigation) score.)
+![Lighthouse Accessibility (navigation) score.](img/lighthouse.png)
